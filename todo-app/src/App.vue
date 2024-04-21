@@ -8,7 +8,7 @@
 
   <div class="container">
     <header>
-      <h1>Todo List</h1>
+      <h1>TodoZen</h1>
       <!-- Error message -->
       <div class="alert-message">
         <div v-if="isAlertVisible" class="alert shadow-lg mb-5 w-full" :class="alertClass">
