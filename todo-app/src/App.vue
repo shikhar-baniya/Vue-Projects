@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="input-section">
-        <input v-model="newTodo" type="text" placeholder="Add a todo . . ."
+        <input v-model="newTodo" type="text" @keyup.enter="addTodo" placeholder="Add a todo . . ."
           class="input input-bordered input-secondary w-full max-w-xs" />
         <input v-model="newDate" type="date"
           class="input input-bordered input-secondary w-full max-w-xs"/>
