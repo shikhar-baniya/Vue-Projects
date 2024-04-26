@@ -1,47 +1,115 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="ctr">
+    <transition name="fade" mode="out-in">
+      <Questions v-if="questionAnswered < questions.length" :questions="questions" :questionAnswered="questionAnswered" @answerSelected="answerSelected"/>
+      <Result v-else  :results="results" :totalCorrect="totalCorrect"/>
+    </transition>
+    <button type="button" class="reset-btn" @click.prevent="reset" v-if="questionAnswered === questions.length">Reset</button>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<script>
+import Questions from './components/Questions.vue'
+import Result from './components/Result.vue'
+export default {
+  name: 'App',
+  components: {
+    Questions, Result, 
+  },
+  data() {
+    return {
+      questionAnswered: 0,
+      totalCorrect: 0,
+      questions: [
+        {
+          q: 'What is 2 + 2?',
+          answers: [
+            {
+              text: '4',
+              is_correct: true
+            },
+            {
+              text: '3',
+              is_correct: false
+            },
+            {
+              text: 'Fish',
+              is_correct: false
+            },
+            {
+              text: '5',
+              is_correct: false
+            }
+          ]
+        },
+        {
+          q: 'How many letters are in the word "Banana"?',
+          answers: [
+            {
+              text: '5',
+              is_correct: false
+            },
+            {
+              text: '7',
+              is_correct: false
+            },
+            {
+              text: '6',
+              is_correct: true
+            },
+            {
+              text: '12',
+              is_correct: false
+            }
+          ]
+        },
+        {
+          q: 'Find the missing letter: C_ke',
+          answers: [
+            {
+              text: 'e',
+              is_correct: false
+            },
+            {
+              text: 'a',
+              is_correct: true
+            },
+            {
+              text: 'i',
+              is_correct: false
+            }
+          ]
+        },
+      ],
+      results: [
+        {
+          min: 0,
+          max: 2,
+          title: "Try again!",
+          desc: "Do a little more studying and you may succeed!"
+        },
+        {
+          min: 3,
+          max: 3,
+          title: "Wow, you're a genius!",
+          desc: "Studying has definitely paid off for you!"
+        }
+      ]
+    }
+  },
+  methods: {
+    answerSelected(isCorrect) {
+      if(isCorrect) {
+        this.totalCorrect++;
+      }
+      this.questionAnswered++;
+    },
+    reset() {
+      this.questionAnswered = 0;
+      this.totalCorrect = 0
+    }
+  },
 }
+</script>
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+<style></style>
